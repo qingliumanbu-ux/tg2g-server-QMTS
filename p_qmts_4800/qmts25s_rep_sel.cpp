@@ -1,0 +1,84 @@
+/*************************************************
+Copyright: Baosight Software LTD.co Copyright (c) 2021
+Author:      潘陈
+Version:     1.0
+Date:        2023-11-23 15:08:16
+Description: 代表成分选择
+**************************************************/
+
+#include "stdafx.h"
+
+int f_qmts_rep_sel(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection * conn);//代表成分选择
+int f_qmts_23_ins(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection * conn);//代表成分选择
+int f_qmts_stno_set(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection * conn);//代表成分选择
+BM2F_ENTERACE(qmts25s_rep_sel)
+int f_qmts25s_rep_sel(EIClass *bcls_rec, EIClass *bcls_ret, CDbConnection *conn)
+{
+	CTracer log(__FUNCTION__);
+	int doFlag = 0;
+	CString sqlstr = " ";
+	CString datetime = CDateTime::Now().ToString("yyyyMMddHHmmss");
+	try
+	{
+		//复合元素计算
+		EIClass elm_cal;
+		elm_cal.Tables[0].Columns.Add(DT_STRING, "HEAT_NO");
+		elm_cal.Tables[0].Columns.Add(DT_STRING, "ST_SAMPLE_NO");
+		elm_cal.Tables[0].Columns.Add(DT_STRING, "TABLE_NAME");
+		elm_cal.Tables[0].Rows.Add();
+		elm_cal.Tables[0].Rows[0]["HEAT_NO"] = bcls_rec->Tables[0].Rows[0]["HEAT_NO"].ToString();
+		elm_cal.Tables[0].Rows[0]["ST_SAMPLE_NO"] = bcls_rec->Tables[0].Rows[0]["ST_SAMPLE_NO"].ToString();
+		elm_cal.Tables[0].Rows[0]["TABLE_NAME"] = "TQMTS25";
+		
+		Log::Trace("", "", "st_sample_no-1 = {0}", bcls_rec->Tables[0].Rows[0]["ST_SAMPLE_NO"].ToString());
+		//选择代表成分,新增TQMTS29表
+		doFlag = f_qmts_rep_sel(&elm_cal, bcls_ret, conn);
+		if (doFlag < 0)
+		{
+			doFlag = 0;
+			s.flag = 0;
+			throw CApplicationException(-1, s.msg, log.Location);
+		}
+		//更新TQMTS23表
+		CString st_sample_no = bcls_rec->Tables[0].Rows[0]["ST_SAMPLE_NO"].ToString();
+
+		EIClass iblk_lh;
+		iblk_lh.Tables[0].Columns.Add(DT_STRING, "HEAT_NO");
+		iblk_lh.Tables[0].Rows.Add();
+		iblk_lh.Tables[0].Rows[0]["HEAT_NO"] = bcls_rec->Tables[0].Rows[0]["HEAT_NO"].ToString();
+
+		doFlag = f_qmts_23_ins(&iblk_lh, bcls_ret, conn);
+		if (doFlag != 0)
+		{
+			throw CApplicationException(-1, s.msg, log.Location);
+		}
+		//调用物料函数
+		//doFlag = f_qmts_stno_set(&iblk_lh, bcls_ret, conn);
+		//if (doFlag != 0)
+		//{
+		//	throw CApplicationException(-1, s.msg, log.Location);
+		//}
+
+	}
+	catch (CDbException &ex)
+	{
+		CFormattable arguments[] = { ex.GetCode(), ex.GetMsg() };
+		CMessageFormat::Format(s.msg, "Database Error,sqlcode=[{0}],sqlmsg=[{1}]", arguments, 2);
+		CString str = sqlstr + "\r\n" + ex.GetMsg();
+		strncpy(s.sysmsg, (const char *)str, sizeof(s.sysmsg) - 1);
+		s.flag = -1;
+		doFlag = -1;
+	}
+	catch (CApplicationException &ex)
+	{
+		s.flag = ex.GetCode();
+		doFlag = -1;
+	}
+	catch (CException &ex)
+	{
+		strcpy(s.msg, ex.GetMsg());
+		s.flag = ex.GetCode();
+		doFlag = -1;
+	}
+	return doFlag;
+}
