@@ -348,7 +348,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 									switch (conn->DatabaseKind)
 									{
 									case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-										sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1) FROM  SYSIBM.DUAL ";
+// DM8 适配 CHANGE-196:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1) FROM  SYSIBM.DUAL ";
+// DM8 SQL：
+										sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1) FROM  DUAL ";
 										break;
 									case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 									case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -356,7 +362,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 										sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1)  FROM  DUAL ";
 										break;
 									default:						// 所有数据库适用，通用SQL语句
-										sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1)  FROM  SYSIBM.DUAL ";
+// DM8 适配 CHANGE-197:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1)  FROM  SYSIBM.DUAL ";
+// DM8 SQL：
+										sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1)  FROM  DUAL ";
 										break;
 									}
 									cmd_inq_01.SetCommandText(sqlstr);
@@ -378,7 +390,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 									switch (conn->DatabaseKind)
 									{
 									case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-										sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-198:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+										sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM DUAL  ";
 										break;
 									case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 									case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -386,7 +404,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 										sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM DUAL ";
 										break;
 									default:						// 所有数据库适用，通用SQL语句
-										sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-199:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+										sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM DUAL ";
 										break;
 									}
 									cmd_inq_01.SetCommandText(sqlstr);
@@ -433,7 +457,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 							switch (conn->DatabaseKind)
 							{
 							case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-								sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-200:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+								sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM DUAL  ";
 								break;
 							case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 							case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -441,7 +471,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 								sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM DUAL ";
 								break;
 							default:						// 所有数据库适用，通用SQL语句
-								sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-201:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM SYSIBM.DUAL ";
+// DM8 SQL：
+								sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM DUAL ";
 								break;
 							}
 							cmd_inq_01.SetCommandText(sqlstr); 
@@ -495,7 +531,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 									switch (conn->DatabaseKind)
 									{
 									case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-										sqlstr = "SELECT replace(@formula_value,@elm_name,@elm_value)  FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-202:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = "SELECT replace(@formula_value,@elm_name,@elm_value)  FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+										sqlstr = "SELECT replace(@formula_value,@elm_name,@elm_value)  FROM DUAL  ";
 										break;
 									case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 									case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -503,7 +545,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 										sqlstr = " SELECT replace(@formula_value,@elm_name,@elm_value)  FROM DUAL ";
 										break;
 									default:						// 所有数据库适用，通用SQL语句
-										sqlstr = " SELECT replace(@formula_value,@elm_name,@elm_value)  FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-203:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT replace(@formula_value,@elm_name,@elm_value)  FROM SYSIBM.DUAL ";
+// DM8 SQL：
+										sqlstr = " SELECT replace(@formula_value,@elm_name,@elm_value)  FROM DUAL ";
 										break;
 									}
 									cmd_inq_01.SetCommandText(sqlstr);
@@ -529,7 +577,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 									switch (conn->DatabaseKind)
 									{
 									case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-										sqlstr = " SELECT replace(@formula_value,@elm_name,@elm_value) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-204:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT replace(@formula_value,@elm_name,@elm_value) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+										sqlstr = " SELECT replace(@formula_value,@elm_name,@elm_value) FROM DUAL  ";
 										break;
 									case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 									case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -537,7 +591,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 										sqlstr = " SELECT replace(@formula_value,@elm_name,@elm_value) FROM DUAL ";
 										break;
 									default:						// 所有数据库适用，通用SQL语句
-										sqlstr = " SELECT replace(@formula_value,@elm_name,@elm_value) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-205:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT replace(@formula_value,@elm_name,@elm_value) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+										sqlstr = " SELECT replace(@formula_value,@elm_name,@elm_value) FROM DUAL ";
 										break;
 									}
 									cmd_inq_01.SetCommandText(sqlstr);
@@ -573,7 +633,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 							switch (conn->DatabaseKind)
 							{
 							case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-								sqlstr = " SELECT ROUND(" + formula_value + +",5) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-206:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT ROUND(" + formula_value + +",5) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+								sqlstr = " SELECT ROUND(" + formula_value + +",5) FROM DUAL  ";
 								break;
 							case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 							case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -581,7 +647,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 								sqlstr = " SELECT ROUND(" + formula_value + +",5) FROM DUAL ";
 								break;
 							default:						// 所有数据库适用，通用SQL语句
-								sqlstr = " SELECT ROUND(" + formula_value + +",5) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-207:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT ROUND(" + formula_value + +",5) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+								sqlstr = " SELECT ROUND(" + formula_value + +",5) FROM DUAL ";
 								break;
 							}
 							cmd_inq_01.SetCommandText(sqlstr);
@@ -606,7 +678,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 							switch (conn->DatabaseKind)
 							{
 							case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-								sqlstr = "SELECT replace(@symbol,'>','-')  FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-208:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = "SELECT replace(@symbol,'>','-')  FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+								sqlstr = "SELECT replace(@symbol,'>','-')  FROM DUAL  ";
 								break;
 							case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 							case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -614,7 +692,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 								sqlstr = " SELECT replace(@symbol,'>','-')  FROM DUAL ";
 								break;
 							default:						// 所有数据库适用，通用SQL语句
-								sqlstr = " SELECT replace(@symbol,'>','-')  FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-209:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT replace(@symbol,'>','-')  FROM SYSIBM.DUAL ";
+// DM8 SQL：
+								sqlstr = " SELECT replace(@symbol,'>','-')  FROM DUAL ";
 								break;
 							}
 							cmd_inq_01.SetCommandText(sqlstr);
@@ -631,7 +715,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 							switch (conn->DatabaseKind)
 							{
 							case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-								sqlstr = "SELECT replace(@symbol,'<','+') FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-210:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = "SELECT replace(@symbol,'<','+') FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+								sqlstr = "SELECT replace(@symbol,'<','+') FROM DUAL  ";
 								break;
 							case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 							case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -639,7 +729,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 								sqlstr = " SELECT replace(@symbol,'<','+')  FROM DUAL ";
 								break;
 							default:						// 所有数据库适用，通用SQL语句
-								sqlstr = " SELECT replace(@symbol,'<','+')  FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-211:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT replace(@symbol,'<','+')  FROM SYSIBM.DUAL ";
+// DM8 SQL：
+								sqlstr = " SELECT replace(@symbol,'<','+')  FROM DUAL ";
 								break;
 							}
 							cmd_inq_01.SetCommandText(sqlstr);
@@ -685,7 +781,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 								switch (conn->DatabaseKind)
 								{
 								case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-									sqlstr = " SELECT replace(@symbol,@elm_name,'') FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-212:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+									// sqlstr = " SELECT replace(@symbol,@elm_name,'') FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+									sqlstr = " SELECT replace(@symbol,@elm_name,'') FROM DUAL  ";
 									break;
 								case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 								case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -693,7 +795,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 									sqlstr = " SELECT replace(@symbol,@elm_name,'') FROM DUAL ";
 									break;
 								default:						// 所有数据库适用，通用SQL语句
-									sqlstr = " SELECT replace(@symbol,@elm_name,'') FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-213:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+									// sqlstr = " SELECT replace(@symbol,@elm_name,'') FROM SYSIBM.DUAL ";
+// DM8 SQL：
+									sqlstr = " SELECT replace(@symbol,@elm_name,'') FROM DUAL ";
 									break;
 								}
 								cmd_inq_01.SetCommandText(sqlstr);
@@ -746,7 +854,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 										switch (conn->DatabaseKind)
 										{
 										case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-											sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-214:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+											// sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+											sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM DUAL  ";
 											break;
 										case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 										case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -754,7 +868,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 											sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM DUAL ";
 											break;
 										default:						// 所有数据库适用，通用SQL语句
-											sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-215:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+											// sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+											sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM DUAL ";
 											break;
 										}
 										cmd_inq_01.SetCommandText(sqlstr);
@@ -779,7 +899,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 										switch (conn->DatabaseKind)
 										{
 										case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-											sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-216:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+											// sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+											sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM DUAL  ";
 											break;
 										case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 										case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -787,7 +913,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 											sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM DUAL ";
 											break;
 										default:						// 所有数据库适用，通用SQL语句
-											sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-217:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+											// sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+											sqlstr = " SELECT replace(@symbol,@elm_name,@elm_value) FROM DUAL ";
 											break;
 										}
 										cmd_inq_01.SetCommandText(sqlstr);
@@ -820,7 +952,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 							switch (conn->DatabaseKind)
 							{
 							case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-								sqlstr = " SELECT " + symbol + " FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-218:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT " + symbol + " FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+								sqlstr = " SELECT " + symbol + " FROM DUAL  ";
 								break;
 							case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 							case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -828,7 +966,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 								sqlstr = " SELECT " + symbol + " FROM DUAL ";
 								break;
 							default:						// 所有数据库适用，通用SQL语句
-								sqlstr = " SELECT " + symbol + " FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-219:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT " + symbol + " FROM SYSIBM.DUAL ";
+// DM8 SQL：
+								sqlstr = " SELECT " + symbol + " FROM DUAL ";
 								break;
 							}
 							cmd_inq_01.SetCommandText(sqlstr);
@@ -942,7 +1086,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 									switch (conn->DatabaseKind)
 									{
 									case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-										sqlstr = " SELECT substr(@formula_std,1,@i-1) || ')' || substr(@formula_std,@i+1) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-220:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT substr(@formula_std,1,@i-1) || ')' || substr(@formula_std,@i+1) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+										sqlstr = " SELECT substr(@formula_std,1,@i-1) || ')' || substr(@formula_std,@i+1) FROM DUAL  ";
 										break;
 									case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 									case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -950,7 +1100,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 										sqlstr = " SELECT substr(@formula_std,1,@i-1) || ')' || substr(@formula_std,@i+1) FROM DUAL ";
 										break;
 									default:						// 所有数据库适用，通用SQL语句
-										sqlstr = " SELECT substr(@formula_std,1,@i-1) || ')' || substr(@formula_std,@i+1) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-221:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT substr(@formula_std,1,@i-1) || ')' || substr(@formula_std,@i+1) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+										sqlstr = " SELECT substr(@formula_std,1,@i-1) || ')' || substr(@formula_std,@i+1) FROM DUAL ";
 										break;
 									}
 									cmd_inq_01.SetCommandText(sqlstr);
@@ -972,7 +1128,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 									switch (conn->DatabaseKind)
 									{
 									case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-										sqlstr = " SELECT substr(@formula_std,1,@i-1) || 'abs(' || substr(@formula_std,@i+1) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-222:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT substr(@formula_std,1,@i-1) || 'abs(' || substr(@formula_std,@i+1) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+										sqlstr = " SELECT substr(@formula_std,1,@i-1) || 'abs(' || substr(@formula_std,@i+1) FROM DUAL  ";
 										break;
 									case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 									case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -980,7 +1142,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 										sqlstr = " SELECT substr(@formula_std,1,@i-1) || 'abs(' || substr(@formula_std,@i+1) FROM DUAL ";
 										break;
 									default:						// 所有数据库适用，通用SQL语句
-										sqlstr = " SELECT substr(@formula_std,1,@i-1) || 'abs(' || substr(@formula_std,@i+1) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-223:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT substr(@formula_std,1,@i-1) || 'abs(' || substr(@formula_std,@i+1) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+										sqlstr = " SELECT substr(@formula_std,1,@i-1) || 'abs(' || substr(@formula_std,@i+1) FROM DUAL ";
 										break;
 									}
 									cmd_inq_01.SetCommandText(sqlstr);
@@ -1026,7 +1194,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 						 	switch (conn->DatabaseKind)
 							{
 							case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-								sqlstr = " SELECT replace(@formula_std,@elm_name,'') FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-224:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT replace(@formula_std,@elm_name,'') FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+								sqlstr = " SELECT replace(@formula_std,@elm_name,'') FROM DUAL  ";
 								break;
 							case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 							case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -1034,7 +1208,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 								sqlstr = " SELECT replace(@formula_std,@elm_name,'') FROM DUAL ";
 								break;
 							default:						// 所有数据库适用，通用SQL语句
-								sqlstr = " SELECT replace(@formula_std,@elm_name,'') FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-225:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT replace(@formula_std,@elm_name,'') FROM SYSIBM.DUAL ";
+// DM8 SQL：
+								sqlstr = " SELECT replace(@formula_std,@elm_name,'') FROM DUAL ";
 								break;
 							}
 							cmd_inq_01.SetCommandText(sqlstr);
@@ -1087,7 +1267,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 									switch (conn->DatabaseKind)
 									{
 									case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-										sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-226:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+										sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM DUAL  ";
 										break;
 									case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 									case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -1095,7 +1281,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 										sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM DUAL ";
 										break;
 									default:						// 所有数据库适用，通用SQL语句
-										sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-227:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+										sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM DUAL ";
 										break;
 									}
 									cmd_inq_01.SetCommandText(sqlstr);
@@ -1121,7 +1313,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 									switch (conn->DatabaseKind)
 									{
 									case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-										sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-228:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+										sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM DUAL  ";
 										break;
 									case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 									case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -1129,7 +1327,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 										sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM DUAL ";
 										break;
 									default:						// 所有数据库适用，通用SQL语句
-										sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-229:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+										// sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+										sqlstr = " SELECT replace(@formula_std,@elm_name,@elm_value) FROM DUAL ";
 										break;
 									}
 									cmd_inq_01.SetCommandText(sqlstr);
@@ -1164,7 +1368,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 							switch (conn->DatabaseKind)
 							{
 							case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-								sqlstr = " SELECT ROUND(" + formula_std + +",5) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-230:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT ROUND(" + formula_std + +",5) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+								sqlstr = " SELECT ROUND(" + formula_std + +",5) FROM DUAL  ";
 								break;
 							case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 							case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -1172,7 +1382,13 @@ int f_qmts_spe_sm(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *conn)
 								sqlstr = " SELECT ROUND(" + formula_std + +",5) FROM DUAL ";
 								break;
 							default:						// 所有数据库适用，通用SQL语句
-								sqlstr = " SELECT ROUND(" + formula_std + +",5) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-231:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT ROUND(" + formula_std + +",5) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+								sqlstr = " SELECT ROUND(" + formula_std + +",5) FROM DUAL ";
 								break;
 							}
 							cmd_inq_01.SetCommandText(sqlstr);

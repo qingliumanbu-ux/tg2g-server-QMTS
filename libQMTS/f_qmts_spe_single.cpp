@@ -170,7 +170,13 @@ int f_qmts_spe_single(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *con
 							switch (conn->DatabaseKind)
 							{
 							case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-								sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-188:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+								sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1) FROM DUAL  ";
 								break;
 							case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 							case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -178,7 +184,13 @@ int f_qmts_spe_single(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *con
 								sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1) FROM DUAL ";
 								break;
 							default:						// 所有数据库适用，通用SQL语句
-								sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-189:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+								sqlstr = " SELECT substr(@formula_value,1,@i-1) || ')' || substr(@formula_value,@i+1) FROM DUAL ";
 								break;
 							}
 							cmd_inq_01.SetCommandText(sqlstr);
@@ -200,7 +212,13 @@ int f_qmts_spe_single(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *con
 							switch (conn->DatabaseKind)
 							{
 							case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-								sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-190:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+								sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM DUAL  ";
 								break;
 							case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 							case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -208,7 +226,13 @@ int f_qmts_spe_single(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *con
 								sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM DUAL ";
 								break;
 							default:						// 所有数据库适用，通用SQL语句
-								sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-191:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+								// sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+								sqlstr = " SELECT substr(@formula_value,1,@i-1) || 'abs(' || substr(@formula_value,@i+1) FROM DUAL ";
 								break;
 							}
 							cmd_inq_01.SetCommandText(sqlstr);
@@ -255,7 +279,13 @@ int f_qmts_spe_single(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *con
 					switch (conn->DatabaseKind)
 					{
 					case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-						sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-192:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+						// sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+						sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM DUAL  ";
 						break;
 					case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 					case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -263,7 +293,13 @@ int f_qmts_spe_single(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *con
 						sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM DUAL ";
 						break;
 					default:						// 所有数据库适用，通用SQL语句
-						sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-193:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+						// sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM SYSIBM.DUAL ";
+// DM8 SQL：
+						sqlstr = " SELECT replace(@formula_value,@elm_name,'') FROM DUAL ";
 						break;
 					}
 					cmd_inq_021.SetCommandText(sqlstr);
@@ -357,7 +393,13 @@ int f_qmts_spe_single(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *con
 					switch (conn->DatabaseKind)
 					{
 					case DB_KIND_DB2:				// DB2 数据库（未开Oracle兼容）
-						sqlstr = " SELECT ROUND(" + formula_value + +",4) FROM SYSIBM.DUAL  ";
+// DM8 适配 CHANGE-194:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+						// sqlstr = " SELECT ROUND(" + formula_value + +",4) FROM SYSIBM.DUAL  ";
+// DM8 SQL：
+						sqlstr = " SELECT ROUND(" + formula_value + +",4) FROM DUAL  ";
 						break;
 					case DB_KIND_DB2_ORACLE:	    // DB2 数据库（开Oracle兼容）
 					case DB_KIND_MSSQL:				// MS SQL Server数据库
@@ -365,7 +407,13 @@ int f_qmts_spe_single(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection *con
 						sqlstr = " SELECT ROUND(" + formula_value + +",4) FROM DUAL ";
 						break;
 					default:						// 所有数据库适用，通用SQL语句
-						sqlstr = " SELECT ROUND(" + formula_value + +",4) FROM SYSIBM.DUAL ";
+// DM8 适配 CHANGE-195:查询。SYSIBM 辅助表改为 DUAL。
+// 改写原因：SYSIBM 辅助表改为 DUAL；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+						// sqlstr = " SELECT ROUND(" + formula_value + +",4) FROM SYSIBM.DUAL ";
+// DM8 SQL：
+						sqlstr = " SELECT ROUND(" + formula_value + +",4) FROM DUAL ";
 						break;
 					}
 					cmd_inq_03.SetCommandText(sqlstr);

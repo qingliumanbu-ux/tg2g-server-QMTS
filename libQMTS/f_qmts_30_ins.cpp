@@ -105,7 +105,15 @@ int f_qmts_30_ins(EIClass * bcls_rec, EIClass * bcls_ret, CDbConnection * conn)
 		tqmts30["PROD_DATE"] = tqmts24["SAMPLE_TAKEN_TIME"].ToString().Substring(0,8);
 		//不合格元素
 		CString reason = "";
-		sqlstr = " SELECT T2.ELM_NAME, DECODE((decode(SUBSTR(ELM_ACT,1,1),'.','0'||ELM_ACT,ELM_ACT)), NULL,'无检验或缺失', (decode(SUBSTR(ELM_ACT,1,1),'.','0'||ELM_ACT,ELM_ACT))), SPE_MIN, SPE_MAX, T1.ELM_OK FROM(SELECT * FROM tqmts25 WHERE ST_SAMPLE_NO = @st_sample_no) T1"
+// DM8 适配 CHANGE-187:查询。空值搜索 DECODE 改为标准 CASE。
+// 改写原因：空值搜索 DECODE 改为标准 CASE,不依赖 NULL 相等匹配的未记载语义；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+		// sqlstr = " SELECT T2.ELM_NAME, DECODE((decode(SUBSTR(ELM_ACT,1,1),'.','0'||ELM_ACT,ELM_ACT)), NULL,'无检验或缺失', (decode(SUBSTR(ELM_ACT,1,1),'.','0'||ELM_ACT,ELM_ACT))), SPE_MIN, SPE_MAX, T1.ELM_OK FROM(SELECT * FROM tqmts25 WHERE ST_SAMPLE_NO = @st_sample_no) T1"
+			// "			RIGHT  JOIN(SELECT * FROM TQMTS02 WHERE IDX_NO IN(SELECT ELM_STD_IDX_A FROM TQMTS0X WHERE ST_NO = @st_no)) T2 ON   T1.ELM_CODE = T2.ELM_CODE"
+			// "			WHERE (ELM_OK = '1' OR ELM_OK IS NULL) ";
+// DM8 SQL：
+		sqlstr = " SELECT T2.ELM_NAME, CASE WHEN (decode(SUBSTR(ELM_ACT,1,1),'.','0'||ELM_ACT,ELM_ACT)) IS NULL THEN '无检验或缺失' ELSE (decode(SUBSTR(ELM_ACT,1,1),'.','0'||ELM_ACT,ELM_ACT)) END, SPE_MIN, SPE_MAX, T1.ELM_OK FROM(SELECT * FROM tqmts25 WHERE ST_SAMPLE_NO = @st_sample_no) T1"
 			"			RIGHT  JOIN(SELECT * FROM TQMTS02 WHERE IDX_NO IN(SELECT ELM_STD_IDX_A FROM TQMTS0X WHERE ST_NO = @st_no)) T2 ON   T1.ELM_CODE = T2.ELM_CODE"
 			"			WHERE (ELM_OK = '1' OR ELM_OK IS NULL) ";
 		cmd.SetCommandText(sqlstr);

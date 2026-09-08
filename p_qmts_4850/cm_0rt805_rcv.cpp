@@ -94,7 +94,13 @@ int f_cm_0rt805_rcv(EIClass* bcls_rec, EIClass* bcls_ret, CDbConnection* conn)
 
 			CString v_heat_no = tqmts0r05["HEAT_NO"].ToString();
 			CString v_order_no = tqmts0r05["ORDER_NO"].ToString();
-			sqlstr = "SELECT DECODE(max(now_row),null,0,max(now_row)) FROM TQMTS0R05 where heat_no='" + v_heat_no + "'and order_no='" + v_order_no + "'";
+// DM8 适配 CHANGE-233:查询。空值搜索 DECODE 改为标准 CASE。
+// 改写原因：空值搜索 DECODE 改为标准 CASE,不依赖 NULL 相等匹配的未记载语义；依据 DM 官方文档,DM8 尚未实测。
+// 本共用分支面向 DM8,其他 DB_KIND 标签也会执行此 SQL;参数、结果列、条件与排序保持不变。
+// 原 SQL（完整保留）：
+			// sqlstr = "SELECT DECODE(max(now_row),null,0,max(now_row)) FROM TQMTS0R05 where heat_no='" + v_heat_no + "'and order_no='" + v_order_no + "'";
+// DM8 SQL：
+			sqlstr = "SELECT CASE WHEN max(now_row) IS NULL THEN 0 ELSE max(now_row) END FROM TQMTS0R05 where heat_no='" + v_heat_no + "'and order_no='" + v_order_no + "'";
 			cmd_inq.SetCommandText(sqlstr);
 			//cmd_inq.ExecuteNonQuery();
 			cmd_inq.ExecuteReader();
